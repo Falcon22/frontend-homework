@@ -2,22 +2,23 @@
 
 const sorting = (arr, properties) => {
     const cmp = (a, b) => {
-        for (let i = 0; i < properties.length; i++) {
-            let first = a[properties[i]], second = b[properties[i]];
+        let res = 0;
+        properties.some((item, i, properties) => {
+            let first = a[item], second = b[item];
             if (typeof first !== typeof second) {
-                if (first === undefined) {
-                    return -1;
-                } else if (second === undefined) {
-                    return 1;
+                if (first === undefined || second === undefined) {
+                    res = second === undefined;
+                    return true;
                 }
                 first = first.toString();
                 second = second.toString();
             }
             if (first !== second) {
-                return first > second
+                res = first > second;
+                return true;
             }
-        }
-        return 0;
+        });
+        return res;
     };
     return arr.sort(cmp);
 };
